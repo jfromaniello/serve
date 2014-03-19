@@ -67,6 +67,14 @@ if (program.stylus) {
 
 // jade
 if (program.jade) {
+  if (fs.existsSync(join(path, 'index.jade'))) {
+    server.use(function (req, res, next) {
+      if (req.url === '/') {
+        req.url = '/index.jade';
+      }
+      next();
+    });
+  }
   server.use(function(req, res, next){
     if (!req.url.match(/\.jade$/)) return next();
     var file = join(path, url.parse(req.url).pathname);
